@@ -20,7 +20,7 @@ spec:
 				  image: ${ORIGIN_REPO}/${PROJECT_NAME}:${IMAGE_TAG}
 				  imagePullPolicy: Always
 				  ports:
-					- containerPort: 8080
+					- containerPort: 80
 					  name: web
 				  resources:
 					requests:
