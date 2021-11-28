@@ -293,4 +293,3 @@ __pycache__/
 # !tools/packages.config
 
 #AspNetCore Config file
-appsettings*.json
