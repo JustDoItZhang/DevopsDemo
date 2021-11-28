@@ -1,0 +1,49 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: ${PROJECT_NAME}
+	namespace: ${NAMESPACE}
+	labels:
+		app: ${PROJECT_NAME}
+spec:
+	replicas: 1
+	selectors:
+		matchLabels:
+			app: {PROJECT_NAME}
+	template:
+		metadata:
+			labels:
+				app: {PROJECT_NAME}
+		spec:
+			containers:
+				- name: {PROJECT_NAME}
+				  image: ${ORIGIN_REPO}/${PROJECT_NAME}:${IMAGE_TAG}
+				  imagePullPolicy: Always
+				  ports:
+					- containerPort: 8080
+					  name: web
+				  resources:
+					requests:
+					  cpu: 200m
+					  memory: 200Mi
+			imagePullSecrets:
+				- name: docker-pwd
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${PROJECT_NAME}
+  namespace: ${NAMESPACE}
+  labels:
+    app: ${PROJECT_NAME}
+spec:
+  selctor:
+    app: ${PROJECT_NAME}
+  ports:
+    - name: web
+	  port: 80
+	  protocol: TCP
+	  targetPort: web
+  type: ClusterIP
