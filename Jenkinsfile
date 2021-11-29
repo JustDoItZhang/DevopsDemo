@@ -28,6 +28,7 @@ pipeline{
           steps{
               container('docker') {
                    sh 'docker version'
+	   sh 'cat /etc/docker/daemon.json'
                    // 刀客编译
                    sh "docker build -t $ORIGIN_REPO/$PROJECT_NAME:$IMAGE_TAG  ."
                    // 刀客镜像推送
