@@ -28,10 +28,8 @@ pipeline{
           steps{
               container('docker') {
                    sh 'docker version'
-                   sh 'pwd'
-                   sh 'cd DevopsDemo'
                    // 刀客编译
-                   sh "docker build -t $ORIGIN_REPO/$PROJECT_NAME:$IMAGE_TAG  ."
+                   sh "cd DevopsDemo && docker build -t $ORIGIN_REPO/$PROJECT_NAME:$IMAGE_TAG  ."
                    // 刀客镜像推送
                    sh "docker push $ORIGIN_REPO/$PROJECT_NAME:$IMAGE_TAG"
                    // 清理镜像
@@ -44,7 +42,7 @@ pipeline{
         stage('Deploy to Kubernetes') {
             steps {
                 kubernetesDeploy(
-                    configs: 'deployment.yaml',
+                    configs: 'DevopsDemo/deployment.yaml',
                     enableConfigSubstitution: true,
                     kubeconfigId: 'kubeconfig'
                 )
